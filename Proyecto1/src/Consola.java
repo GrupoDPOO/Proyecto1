@@ -30,10 +30,50 @@ public class Consola {
 			System.out.println("\n----------- Bienvenido " + usuario.getNombre()
 			+" -----------");
 			this.menuAdministrador();
+		}else if (usuario.getRol().equals("recepcionista")){
+			System.out.println("\n----------- Bienvenido " + usuario.getNombre()
+			+" -----------");
+			this.menuRecepcionista();
 		}
 		
 	}
 	
+	private void menuRecepcionista() throws IOException{
+
+		System.out.println("\n1. Acceder al inventario de una habitación");
+		System.out.println("2. Consultar disponibilidad de una habitación");
+		System.out.println("3. Realizar una reserva");
+		System.out.println("4. Realizar registro de un huésped");
+
+		String opcion = input("Digite una opción");
+
+		if (opcion.equals("1")){
+			int id= input("Digite el id de la habitación");
+			list<Habitacion>lista= Hotel.getInventario();
+			for (Habitacion hab: lista){
+				if (hab.getIdentificador().equals(id)){
+					System.out.println("El identificador de la habitación es:" + " " + hab.getIdentificador() + ", tiene cocina:" + " " + hab.getCocina()
+					+ ",tiene balcon:" + " " + hab.getBalcon() + ", tiene vista:" + " " + hab.getVista() + "y cuenta con las siguientes camas:" + " "
+					 +hab.getCamas());
+				}
+			}
+		}
+
+		if (opcion.equals("2")){
+			int id= input(mensaje:"Digite el id de la habitación");
+			list<Habitacion>lista= Hotel.getInventario();
+			for (Habitacion hab: lista){
+				if (hab.getIdentificador().equals(id)){
+					System.out.println("Disponibilidad:" + " " + hab.getDisponible());
+		}
+		if (opcion.equals("3")){
+			
+		}
+		if (opcion.equals("4")){
+			
+		}
+	}
+
 	private void menuAdministrador() throws IOException {
 		System.out.println("\n1. Crear una nueva habitación");
 		System.out.println("2. Cargar archivo de habitaciones");
