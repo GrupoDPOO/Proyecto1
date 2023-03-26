@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Consola {
 	
@@ -48,13 +49,13 @@ public class Consola {
 		String opcion = input("Digite una opción");
 
 		if (opcion.equals("1")){
-			int idCliente= input(mensaje: "Digite el id del cliente");
+			int idCliente= input(mensaje:"Digite el id del cliente");
 			ArrayList<String> servicios= new ArrayList<String>();
 			System.out.println("\n -----------SERVICIOS-----------");
 			System.out.println("1. Servicio de SPA");
 			System.out.println("2. Servicio de guía turístico");
 			System.out.println("2. Servicio de restaurante");
-			String opcion2= input(mensaje:"Digite una opción")
+			String opcion2= input(mensaje:"Digite una opción");
 
 			if (opcion2.equals("1")){
 
@@ -82,8 +83,8 @@ public class Consola {
 			lista.add(Hotel.getInventario());
 			for (Habitacion hab: lista){
 				if (hab.getIdentificador().equals(id)){
-					System.out.println("El identificador de la habitación es:" + " " + hab.getIdentificador() + ", tiene cocina:" + " " + hab.getCocina()
-					+ ",tiene balcon:" + " " + hab.getBalcon() + ", tiene vista:" + " " + hab.getVista() + "y cuenta con las siguientes camas:" + " "
+					System.out.println("El identificador de la habitación es:" + " " + hab.getIdentificador() + ", tiene cocina:" + " " + hab.isCocina()
+					+ ",tiene balcon:" + " " + hab.isBalcon() + ", tiene vista:" + " " + hab.isVista() + "y cuenta con las siguientes camas:" + " "
 					 +hab.getCamas());
 				}
 			}
@@ -98,15 +99,16 @@ public class Consola {
 			System.out.println("1. Ver disponibilidad actual");
 			System.out.println("2. Ver disponibilidad para una fecha");
 
-			String opcion2= input(mensaje:"Digite una opción")
+			String opcion2= input(mensaje:"Digite una opción");
 			if (opcion2.equals("1")){
 			for (Habitacion hab: lista){
-				if (hab.getIdentificador().equals(id) && hab.getDisponible().equals(false)){
-					System.out.println("La habitación no se encuentra disponible, se encuentra ocupada por el huesped" + " " + );
+				if (hab.getIdentificador().equals(id) && hab.isDisponible().equals(false)){
+					System.out.println("La habitación no se encuentra disponible, se encuentra ocupada por el huesped" + " "  );
 			}
-		}
-		if (hab.getIdentificador().equals(id) && hab.getDisponible().equals(true)){
-			System.out.println("La habitación se encuentra disponible");
+		
+				if (hab.getIdentificador().equals(id) && hab.isDisponible().equals(true)){
+					System.out.println("La habitación se encuentra disponible");
+			}
 		}
 	}
 		if (opcion.equals("3")){
@@ -138,8 +140,9 @@ public class Consola {
 		boolean cocina = Boolean.parseBoolean(input("Cuenta con cocina (true/false)"));
 		String camas = input("Escriba el tipo de camas con las que cuenta la habitación separadas por comas");
 		String tipo= input("Escriba el tipo de habitación (suite/suite doble/estandar)");
+		boolean disponible= true;
 		
-		hotel.guardarHabitacion(id, ubicacion, balcon, vista, cocina, camas, tipo);
+		hotel.guardarHabitacion(id, ubicacion, balcon, vista, cocina, camas, tipo,disponible);
 		System.out.println("\nHabitación creada y registrada en el sistema con exito");
 	}
 	

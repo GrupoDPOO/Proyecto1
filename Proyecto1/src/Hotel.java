@@ -68,6 +68,7 @@ private void cargarHabitaciones() throws IOException {
 			boolean vista = Boolean.parseBoolean(partes[3]);
 			boolean cocina = Boolean.parseBoolean(partes[4]);
 			String camas = partes[5];
+			boolean disponible = Boolean.parseBoolean(partes[6]);
 			
 			String[] partesCamas = camas.split(",");
 			
@@ -80,7 +81,7 @@ private void cargarHabitaciones() throws IOException {
 			
 			
 			Habitacion habitacion = new Habitacion(identificador,ubicacion,balcon,
-					vista,cocina,camasHab, tipo);
+					vista,cocina,camasHab, tipo, disponible);
 			
 			inventario.add(habitacion);
 			
@@ -153,7 +154,7 @@ private void cargarHabitaciones() throws IOException {
 	}
 	
 	public void guardarHabitacion(int identificador,String ubicacion,boolean balcon,
-			boolean vista,boolean cocina,String camas,String tipo) throws IOException {
+			boolean vista,boolean cocina,String camas,String tipo, boolean disponible) throws IOException {
 		
 		ArrayList<Cama> camas2 = new ArrayList<>();
 		
@@ -166,7 +167,7 @@ private void cargarHabitaciones() throws IOException {
 			camas2.add(cama);
 		}
 		
-		Habitacion hab = new Habitacion(identificador,ubicacion,balcon,vista,cocina,camas2,tipo);
+		Habitacion hab = new Habitacion(identificador,ubicacion,balcon,vista,cocina,camas2,tipo,disponible);
 		
 		for(int i=0;i<inventario.size();i++) {
 			if(inventario.get(i).getIdentificador()==identificador) {
@@ -200,6 +201,10 @@ private void cargarHabitaciones() throws IOException {
 		
 		linea.close();
 		escribir.close();
+	}
+
+	public ArrayList<Habitacion> getInventario(){
+		return inventario;
 	}
 
 }
