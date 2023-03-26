@@ -67,6 +67,9 @@ public class Consola {
 					System.out.println("Disponibilidad:" + " " + hab.getDisponible());
 		}
 		if (opcion.equals("3")){
+			for(){
+				
+			}
 			
 		}
 		if (opcion.equals("4")){
