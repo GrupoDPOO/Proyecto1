@@ -1,0 +1,4 @@
+rol;nombre;documento;correo;telefono;user;clave
+empleado;lucas;123456789;lucas@gmail.com;87654321;luca;123
+administrador;jose;848484848;jose@gmail.com;987642;jose1;123
+recepcionista;mauro;7373798;mauro@gmail.com;4378983;maur;123

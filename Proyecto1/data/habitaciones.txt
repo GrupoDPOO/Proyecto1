@@ -1,0 +1,2 @@
+12;adad;false;false;false;mediana;suite
+23;wwwwwwwwww;true;true;true;mediana;suite

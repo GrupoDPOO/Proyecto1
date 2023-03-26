@@ -1,0 +1,5 @@
+pequeña;1;0
+mediana;1;1
+grande;2;2
+queen;3;2
+king;3;3
