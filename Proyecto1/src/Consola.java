@@ -34,8 +34,39 @@ public class Consola {
 			System.out.println("\n----------- Bienvenido " + usuario.getNombre()
 			+" -----------");
 			this.menuRecepcionista();
+		}else if (usuario.getRol().equals("empleado")){
+			System.out.println("\n----------- Bienvenido " + usuario.getNombre()
+			+" -----------");
+			this.menuEmpleado();
 		}
 		
+	}
+
+	private void menuEmpleado(){
+
+		System.out.println("\n1. Registrar consumo de un huésped");
+		String opcion = input("Digite una opción");
+
+		if (opcion.equals("1")){
+			int idCliente= input(mensaje: "Digite el id del cliente");
+			ArrayList<String> servicios= new ArrayList<String>();
+			System.out.println("\n -----------SERVICIOS-----------");
+			System.out.println("1. Servicio de SPA");
+			System.out.println("2. Servicio de guía turístico");
+			System.out.println("2. Servicio de restaurante");
+			String opcion2= input(mensaje:"Digite una opción")
+
+			if (opcion2.equals("1")){
+
+			}
+			if (opcion2.equals("2")){
+				
+			}
+			if (opcion2.equals("3")){
+				
+			}
+
+		}
 	}
 	
 	private void menuRecepcionista() throws IOException{
@@ -43,13 +74,12 @@ public class Consola {
 		System.out.println("\n1. Acceder al inventario de una habitación");
 		System.out.println("2. Consultar disponibilidad de una habitación");
 		System.out.println("3. Realizar una reserva");
-		System.out.println("4. Realizar registro de un huésped");
-
 		String opcion = input("Digite una opción");
 
 		if (opcion.equals("1")){
 			int id= input("Digite el id de la habitación");
-			list<Habitacion>lista= Hotel.getInventario();
+			ArrayList<Habitacion> lista= new ArrayList<Habitacion>();
+			lista.add(Hotel.getInventario());
 			for (Habitacion hab: lista){
 				if (hab.getIdentificador().equals(id)){
 					System.out.println("El identificador de la habitación es:" + " " + hab.getIdentificador() + ", tiene cocina:" + " " + hab.getCocina()
@@ -61,21 +91,31 @@ public class Consola {
 
 		if (opcion.equals("2")){
 			int id= input(mensaje:"Digite el id de la habitación");
-			list<Habitacion>lista= Hotel.getInventario();
+			ArrayList<Habitacion> lista= new ArrayList<Habitacion>();
+			lista.add(Hotel.getInventario());
+
+			System.out.println("-----------OPCIONES-----------");
+			System.out.println("1. Ver disponibilidad actual");
+			System.out.println("2. Ver disponibilidad para una fecha");
+
+			String opcion2= input(mensaje:"Digite una opción")
+			if (opcion2.equals("1")){
 			for (Habitacion hab: lista){
-				if (hab.getIdentificador().equals(id)){
-					System.out.println("Disponibilidad:" + " " + hab.getDisponible());
-		}
-		if (opcion.equals("3")){
-			for(){
-				
+				if (hab.getIdentificador().equals(id) && hab.getDisponible().equals(false)){
+					System.out.println("La habitación no se encuentra disponible, se encuentra ocupada por el huesped" + " " + );
 			}
-			
 		}
-		if (opcion.equals("4")){
-			
+		if (hab.getIdentificador().equals(id) && hab.getDisponible().equals(true)){
+			System.out.println("La habitación se encuentra disponible");
 		}
 	}
+		if (opcion.equals("3")){
+		
+			
+		}
+		
+	}
+}
 
 	private void menuAdministrador() throws IOException {
 		System.out.println("\n1. Crear una nueva habitación");
