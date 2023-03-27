@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Consola {
 	
@@ -45,17 +46,20 @@ public class Consola {
 
 	private void menuEmpleado(){
 
+		Scanner scaner = new Scanner (System.in);
 		System.out.println("\n1. Registrar consumo de un huésped");
-		String opcion = input("Digite una opción");
+		String opcion = scaner.nextLine();
 
 		if (opcion.equals("1")){
-			int idCliente= input(mensaje:"Digite el id del cliente");
+
+			System.out.println("Digite el id del cliente");
+			int idCliente= scaner.nextInt();
 			ArrayList<String> servicios= new ArrayList<String>();
 			System.out.println("\n -----------SERVICIOS-----------");
 			System.out.println("1. Servicio de SPA");
 			System.out.println("2. Servicio de guía turístico");
 			System.out.println("2. Servicio de restaurante");
-			String opcion2= input(mensaje:"Digite una opción");
+			String opcion2= scaner.nextLine();
 
 			if (opcion2.equals("1")){
 
@@ -66,6 +70,8 @@ public class Consola {
 			if (opcion2.equals("3")){
 				
 			}
+
+			scaner.close();
 
 		}
 	}
@@ -78,11 +84,13 @@ public class Consola {
 		String opcion = input("Digite una opción");
 
 		if (opcion.equals("1")){
-			int id= input("Digite el id de la habitación");
+			Scanner scaner = new Scanner (System.in);
+			System.out.println("Digite el id de la habitación");
+			int id= scaner.nextInt();
 			ArrayList<Habitacion> lista= new ArrayList<Habitacion>();
 			lista.add(Hotel.getInventario());
 			for (Habitacion hab: lista){
-				if (hab.getIdentificador().equals(id)){
+				if (hab.getIdentificador()==id){
 					System.out.println("El identificador de la habitación es:" + " " + hab.getIdentificador() + ", tiene cocina:" + " " + hab.isCocina()
 					+ ",tiene balcon:" + " " + hab.isBalcon() + ", tiene vista:" + " " + hab.isVista() + "y cuenta con las siguientes camas:" + " "
 					 +hab.getCamas());
@@ -91,22 +99,24 @@ public class Consola {
 		}
 
 		if (opcion.equals("2")){
-			int id= input(mensaje:"Digite el id de la habitación");
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Digite el id de la habitación");
+			int id= scanner.nextInt();
 			ArrayList<Habitacion> lista= new ArrayList<Habitacion>();
 			lista.add(Hotel.getInventario());
 
 			System.out.println("-----------OPCIONES-----------");
 			System.out.println("1. Ver disponibilidad actual");
 			System.out.println("2. Ver disponibilidad para una fecha");
-
-			String opcion2= input(mensaje:"Digite una opción");
+			System.out.println("Seleccione una de las opciones");
+			String opcion2= scanner.nextLine();
 			if (opcion2.equals("1")){
 			for (Habitacion hab: lista){
-				if (hab.getIdentificador().equals(id) && hab.isDisponible().equals(false)){
+				if (hab.getIdentificador()==id && hab.isDisponible()==false){
 					System.out.println("La habitación no se encuentra disponible, se encuentra ocupada por el huesped" + " "  );
 			}
 		
-				if (hab.getIdentificador().equals(id) && hab.isDisponible().equals(true)){
+				if (hab.getIdentificador()==id && hab.isDisponible()==true){
 					System.out.println("La habitación se encuentra disponible");
 			}
 		}
@@ -115,6 +125,8 @@ public class Consola {
 		
 			
 		}
+
+		scanner.close();
 		
 	}
 }
