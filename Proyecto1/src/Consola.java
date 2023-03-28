@@ -11,6 +11,8 @@ public class Consola {
 	public static void main(String[] args) throws IOException {
 		
 		hotel.cargarUsuarios();
+		hotel.cargarArchivos();
+		hotel.cargarReservas();
 		Consola consola = new Consola();
 		consola.login();
 	}
@@ -78,57 +80,46 @@ public class Consola {
 	
 	private void menuRecepcionista() throws IOException{
 
-		System.out.println("\n1. Acceder al inventario de una habitación");
+		System.out.println("\n1.Consultar inventario de habitaciones");
+		System.out.println("2. Consultar reservas de cada habitacion");
 		System.out.println("2. Consultar disponibilidad de una habitación");
 		System.out.println("3. Realizar una reserva");
 		String opcion = input("Digite una opción");
 
-		if (opcion.equals("1")){
-			Scanner scaner = new Scanner (System.in);
-			System.out.println("Digite el id de la habitación");
-			int id= scaner.nextInt();
-			ArrayList<Habitacion> lista= new ArrayList<Habitacion>();
-			lista.add(Hotel.getInventario());
-			for (Habitacion hab: lista){
-				if (hab.getIdentificador()==id){
-					System.out.println("El identificador de la habitación es:" + " " + hab.getIdentificador() + ", tiene cocina:" + " " + hab.isCocina()
-					+ ",tiene balcon:" + " " + hab.isBalcon() + ", tiene vista:" + " " + hab.isVista() + "y cuenta con las siguientes camas:" + " "
-					 +hab.getCamas());
-				}
-			}
-		}
-
-		if (opcion.equals("2")){
-			Scanner scanner = new Scanner(System.in);
-			System.out.println("Digite el id de la habitación");
-			int id= scanner.nextInt();
-			ArrayList<Habitacion> lista= new ArrayList<Habitacion>();
-			lista.add(Hotel.getInventario());
-
-			System.out.println("-----------OPCIONES-----------");
-			System.out.println("1. Ver disponibilidad actual");
-			System.out.println("2. Ver disponibilidad para una fecha");
-			System.out.println("Seleccione una de las opciones");
-			String opcion2= scanner.nextLine();
-			if (opcion2.equals("1")){
-			for (Habitacion hab: lista){
-				if (hab.getIdentificador()==id && hab.isDisponible()==false){
-					System.out.println("La habitación no se encuentra disponible, se encuentra ocupada por el huesped" + " "  );
-			}
-		
-				if (hab.getIdentificador()==id && hab.isDisponible()==true){
-					System.out.println("La habitación se encuentra disponible");
-			}
-		}
-	}
-		if (opcion.equals("3")){
-		
+		if(opcion.equals("1")) {
 			
+			ArrayList<Habitacion> inventario = hotel.getInventario();
+			
+			
+			for(int i=0;i<inventario.size();i++) {
+				System.out.println("\n------------------------------------------\n");
+				System.out.println("Habitación " + inventario.get(i).getIdentificador()+":");
+				System.out.println("     Ubicacion: " + inventario.get(i).getUbicacion());
+				
+				if(inventario.get(i).isBalcon()) System.out.println("     Cuenta con balcón");
+				if(inventario.get(i).isVista()) System.out.println("     Cuenta con Vista");
+				if(inventario.get(i).isCocina()) System.out.println("     Cuenta con Cocina Integral");
+				
+				System.out.println("     Capacidad para Niños: " + inventario.get(i).capacidadNinos());
+				System.out.println("     Capacidad para Adultos: " + inventario.get(i).capacidadAdultos());
+				System.out.println("     Tipo: " + inventario.get(i).getTipo());
+			}
+			System.out.println("\n------------------------------------------\n");
+			this.menuRecepcionista();
+		}else if(opcion.equals("2")){
+			
+			ArrayList<Reserva> reservas = hotel.getReservas();
+			
+			for(int i=0;i<reservas.size();i++) {
+				System.out.println("\n------------------------------------------\n");
+				System.out.println("  Habitación: " + reservas.get(i).getIdHabitacion());
+				System.out.println("  Fecha de reservación: " + reservas.get(i).getFechaInicio() + " - " + reservas.get(i).getFechaFin());
+			}	
+			System.out.println("\n------------------------------------------\n");
+			this.menuRecepcionista();
 		}
-
-		scanner.close();
-		
-	}
+	
+	
 }
 
 	private void menuAdministrador() throws IOException {
@@ -140,6 +131,8 @@ public class Consola {
 		if(opcion.equals("1")) {
 			hotel.cargarArchivos();
 			this.crearHabitacion();
+		}else if(opcion.equals("2")){
+			this.cargarArchivoHabitaciones();
 		}
 	}
 	
@@ -152,10 +145,21 @@ public class Consola {
 		boolean cocina = Boolean.parseBoolean(input("Cuenta con cocina (true/false)"));
 		String camas = input("Escriba el tipo de camas con las que cuenta la habitación separadas por comas");
 		String tipo= input("Escriba el tipo de habitación (suite/suite doble/estandar)");
-		boolean disponible= true;
 		
-		hotel.guardarHabitacion(id, ubicacion, balcon, vista, cocina, camas, tipo,disponible);
+		
+		hotel.guardarHabitacion(id, ubicacion, balcon, vista, cocina, camas, tipo);
 		System.out.println("\nHabitación creada y registrada en el sistema con exito");
+		this.menuAdministrador();
+	}
+	
+	/*
+	 * Metodo para cargar las habitaciones desde un archivo
+	 */
+	
+	private void cargarArchivoHabitaciones() {
+		System.out.println("El archivo de las habitacion se encuentra en data dentro del proyecto, "
+				+ " para efectos de eficacia se hara la carga de este archivo independientemente del tipo de usuario ingresado"
+				+ "es decir que no es necesario que siempre que tenga que ingresar el administrador para hacer la carga de datos");
 	}
 	
 	/*

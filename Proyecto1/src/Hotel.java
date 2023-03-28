@@ -11,6 +11,7 @@ public class Hotel {
 	private ArrayList<Cama> camas= new ArrayList<>();
 	private ArrayList<Habitacion> inventario= new ArrayList<>();
 	private ArrayList<Usuario> usuarios = new ArrayList<>();
+	private ArrayList<Reserva> reservas = new ArrayList<>();
 	
 	
 
@@ -68,12 +69,13 @@ private void cargarHabitaciones() throws IOException {
 			boolean vista = Boolean.parseBoolean(partes[3]);
 			boolean cocina = Boolean.parseBoolean(partes[4]);
 			String camas = partes[5];
-			boolean disponible = Boolean.parseBoolean(partes[6]);
+			
 			
 			String[] partesCamas = camas.split(",");
 			
 			for(int i=0;i<partesCamas.length;i++) {
 				Cama _cama = consultarCama(partesCamas[i]);
+				System.out.println(partesCamas[i]);
 				camasHab.add(_cama);
 			}
 			
@@ -81,7 +83,7 @@ private void cargarHabitaciones() throws IOException {
 			
 			
 			Habitacion habitacion = new Habitacion(identificador,ubicacion,balcon,
-					vista,cocina,camasHab, tipo, disponible);
+					vista,cocina,camasHab, tipo);
 			
 			inventario.add(habitacion);
 			
@@ -98,7 +100,7 @@ private void cargarHabitaciones() throws IOException {
 		
 		for(int i=0;i<camas.size();i++) {
 			
-			if(camas.get(i).equals(tipo)) {
+			if(camas.get(i).getTipo().equals(tipo)) {
 				_cama=camas.get(i);
 			}
 		}
@@ -154,7 +156,7 @@ private void cargarHabitaciones() throws IOException {
 	}
 	
 	public void guardarHabitacion(int identificador,String ubicacion,boolean balcon,
-			boolean vista,boolean cocina,String camas,String tipo, boolean disponible) throws IOException {
+			boolean vista,boolean cocina,String camas,String tipo) throws IOException {
 		
 		ArrayList<Cama> camas2 = new ArrayList<>();
 		
@@ -167,7 +169,7 @@ private void cargarHabitaciones() throws IOException {
 			camas2.add(cama);
 		}
 		
-		Habitacion hab = new Habitacion(identificador,ubicacion,balcon,vista,cocina,camas2,tipo,disponible);
+		Habitacion hab = new Habitacion(identificador,ubicacion,balcon,vista,cocina,camas2,tipo);
 		
 		for(int i=0;i<inventario.size();i++) {
 			if(inventario.get(i).getIdentificador()==identificador) {
@@ -205,6 +207,38 @@ private void cargarHabitaciones() throws IOException {
 
 	public ArrayList<Habitacion> getInventario(){
 		return inventario;
+	}
+	
+	public void cargarReservas() throws IOException {
+		
+		FileReader file = new FileReader("./data/reservas.txt");
+		BufferedReader br = new BufferedReader(file);
+
+		String linea = br.readLine();
+
+		while (linea != null) {
+			
+			String[] partes = linea.split(";");
+			
+			int idHabitacion = Integer.parseInt(partes[0]);
+			String fechaInicio = partes[1];
+			String fechaFin = partes[2];
+			
+			Reserva reserva = new Reserva(idHabitacion,fechaInicio,fechaFin);
+			
+			reservas.add(reserva);
+			
+			
+			linea = br.readLine(); //Salto de linea
+
+		}
+
+		br.close();
+		
+	}
+	
+	public ArrayList<Reserva> getReservas(){
+		return reservas;
 	}
 
 }

@@ -11,12 +11,12 @@ public class Habitacion {
 	private boolean cocina;
 	private ArrayList<Cama> camas;
 	private String tipo;
-	private boolean disponible;
+	
 	
 	//Constructor
 	
 	public Habitacion(int identificador, String ubicacion, boolean balcon,
-			boolean vista, boolean cocina, ArrayList<Cama> camas, String tipo, boolean disponible) {
+			boolean vista, boolean cocina, ArrayList<Cama> camas, String tipo) {
 		super();
 		this.identificador = identificador;
 		this.ubicacion = ubicacion;
@@ -25,18 +25,10 @@ public class Habitacion {
 		this.cocina = cocina;
 		this.camas = camas;
 		this.tipo=tipo;
-		this.disponible= disponible;
+		
 
 	}
 
-	public boolean isDisponible() {
-		return disponible;
-	}
-
-	public void setIdentificador(boolean disponible) {
-        this.disponible = disponible;
-    }
-	
 	public int getIdentificador() {
 		return identificador;
 	}
@@ -99,6 +91,36 @@ public class Habitacion {
 		return identificador + ";" + ubicacion + ";" + balcon
 				+ ";" + vista + ";" + cocina + ";" + "mediana" + ";" + tipo;
 	}
+	
+	public int capacidadNinos() {
+		int capN = 0;
+		for(int i=0;i<camas.size();i++) {
+			
+			capN += camas.get(i).cantidadNinos();
+		}
+		
+		return capN;
+	}
+	
+	public int capacidadAdultos() {
+		int capA = 0;
+		for(int i=0;i<camas.size();i++) {
+			
+			capA += camas.get(i).cantidadAdultos();
+		}
+		
+		return capA;
+	}
+	
+	public int capacidad() {
+		int total=0;
+		int capN = this.capacidadNinos();
+		int capA = this.capacidadAdultos();
+		total= capN + capA;
+		
+		return total;
+	}
+	
 	
 	
 	

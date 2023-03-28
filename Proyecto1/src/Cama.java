@@ -20,6 +20,14 @@ public class Cama {
 		return tipo;
 	}
 	
+	public int cantidadNinos() {
+		return cantidadNinos;
+	}
+	
+	public int cantidadAdultos() {
+		return cantidadAdultos;
+	}
+	
 	
 	
 
