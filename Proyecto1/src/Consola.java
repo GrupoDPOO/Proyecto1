@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,7 +10,7 @@ public class Consola {
 	
 	private static Hotel hotel = new Hotel();
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 		
 		hotel.cargarUsuarios();
 		hotel.cargarArchivos();
@@ -17,7 +19,7 @@ public class Consola {
 		consola.login();
 	}
 	
-	private void login() throws IOException {
+	private void login() throws IOException, ParseException {
 		
 		System.out.println("\n----------- Bienvenido -----------\n");
 		String user = input("Digite su usuario");
@@ -78,12 +80,13 @@ public class Consola {
 		}
 	}
 	
-	private void menuRecepcionista() throws IOException{
+	private void menuRecepcionista() throws IOException, ParseException{
 
 		System.out.println("\n1.Consultar inventario de habitaciones");
-		System.out.println("2. Consultar reservas de cada habitacion");
-		System.out.println("2. Consultar disponibilidad de una habitación");
-		System.out.println("3. Realizar una reserva");
+		System.out.println("2. Consultar todas las reservas");
+		System.out.println("3. Consultar las reservaciones de una habitación en especifico");
+		System.out.println("4. Consultar disponibilidad de habitaciones por fecha");
+		System.out.println("5. Realizar una reserva");
 		String opcion = input("Digite una opción");
 
 		if(opcion.equals("1")) {
@@ -112,11 +115,59 @@ public class Consola {
 			
 			for(int i=0;i<reservas.size();i++) {
 				System.out.println("\n------------------------------------------\n");
+				System.out.println("Reserva N°: " + reservas.get(i).getIdReserva());
+				System.out.println("Reservador por: " + reservas.get(i).getNombreCliente());
 				System.out.println("  Habitación: " + reservas.get(i).getIdHabitacion());
-				System.out.println("  Fecha de reservación: " + reservas.get(i).getFechaInicio() + " - " + reservas.get(i).getFechaFin());
+				System.out.println("  Fecha de reservación: " + reservas.get(i).getFechaInicioString() + " - " + reservas.get(i).getFechaFinString());
 			}	
 			System.out.println("\n------------------------------------------\n");
 			this.menuRecepcionista();
+		}else if(opcion.equals("3")) {
+			
+			ArrayList<Reserva> reservas = hotel.getReservas();
+			String idHabitacion = input("Digite el número de la habitación");
+			
+			for(int i=0;i<reservas.size();i++) {
+				
+				if(String.valueOf(reservas.get(i).getIdHabitacion()).equals(idHabitacion)) {
+					System.out.println("\n------------------------------------------\n");
+					System.out.println("Reserva N°: " + reservas.get(i).getIdReserva());
+					System.out.println("Reservador por: " + reservas.get(i).getNombreCliente());
+					System.out.println("  Habitación: " + reservas.get(i).getIdHabitacion());
+					System.out.println("  Fecha de reservación: " + reservas.get(i).getFechaInicioString() + " - " + reservas.get(i).getFechaFinString());
+				}
+				
+			}	
+			System.out.println("\n------------------------------------------\n");
+			this.menuRecepcionista();
+			
+			
+		}else if(opcion.equals("4")) {
+			System.out.println("\n");
+			String fechaInicio=input("Digite la fecha inicial de la reserva dd/MM/YYYY");
+			String fechaFinal = input("Digite la fecha final de la reserva dd/MM/YYYY");
+			
+			System.out.println("Dentro de ese rango de fechas tenemos disponibles las siguientes habitaciones: ");
+			
+			ArrayList<Habitacion> habitacionesDisponibles = hotel.habitacionesPorFecha(fechaInicio, fechaFinal);
+			
+			for(int i=0;i<habitacionesDisponibles.size();i++) {
+				System.out.println("\n------------------------------------------\n");
+				System.out.println("Habitación N°: " + habitacionesDisponibles.get(i).getIdentificador());
+				System.out.println("     Ubicacion: " + habitacionesDisponibles.get(i).getUbicacion());
+				
+				if(habitacionesDisponibles.get(i).isBalcon()) System.out.println("     Cuenta con balcón");
+				if(habitacionesDisponibles.get(i).isVista()) System.out.println("     Cuenta con Vista");
+				if(habitacionesDisponibles.get(i).isCocina()) System.out.println("     Cuenta con Cocina Integral");
+				
+				System.out.println("     Capacidad para Niños: " + habitacionesDisponibles.get(i).capacidadNinos());
+				System.out.println("     Capacidad para Adultos: " + habitacionesDisponibles.get(i).capacidadAdultos());
+				System.out.println("     Tipo: " + habitacionesDisponibles.get(i).getTipo());	
+			}
+			System.out.println("\n------------------------------------------\n");
+			this.menuRecepcionista();
+			
+			
 		}
 	
 	

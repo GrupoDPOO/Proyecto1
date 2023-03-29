@@ -1,0 +1,4 @@
+-Dfile.encoding=UTF-8
+-classpath
+"C:\\Users\\Maicol -PC\\git\\repository\\Proyecto1\\bin"
+Consola

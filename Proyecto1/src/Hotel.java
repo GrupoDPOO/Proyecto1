@@ -4,7 +4,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Hotel {
 	
@@ -209,7 +212,7 @@ private void cargarHabitaciones() throws IOException {
 		return inventario;
 	}
 	
-	public void cargarReservas() throws IOException {
+	public void cargarReservas() throws IOException, ParseException {
 		
 		FileReader file = new FileReader("./data/reservas.txt");
 		BufferedReader br = new BufferedReader(file);
@@ -220,11 +223,14 @@ private void cargarHabitaciones() throws IOException {
 			
 			String[] partes = linea.split(";");
 			
-			int idHabitacion = Integer.parseInt(partes[0]);
-			String fechaInicio = partes[1];
-			String fechaFin = partes[2];
+			int idReserva = Integer.parseInt(partes[0]);
+			int idHabitacion = Integer.parseInt(partes[1]);
+			String fechaInicio = partes[2];
+			String fechaFin = partes[3];
+			int idCliente = Integer.parseInt(partes[4]);
+			String nombreCliente = partes[5];
 			
-			Reserva reserva = new Reserva(idHabitacion,fechaInicio,fechaFin);
+			Reserva reserva = new Reserva(idReserva, idHabitacion,fechaInicio,fechaFin,idCliente,nombreCliente);
 			
 			reservas.add(reserva);
 			
@@ -240,5 +246,51 @@ private void cargarHabitaciones() throws IOException {
 	public ArrayList<Reserva> getReservas(){
 		return reservas;
 	}
-
+	
+	/*
+	 * Metodo para saber las habitaciones dispobibles en un rango de fechas
+	 */
+	
+	public ArrayList<Habitacion> habitacionesPorFecha(String fechaInicial, String fechaFinal) throws ParseException {
+		
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		Date fInicial = formato.parse(fechaInicial);  
+		Date fFinal = formato.parse(fechaFinal); 
+		
+		ArrayList<Habitacion> habitacionesDisponibles = inventario;
+		ArrayList<Integer> idHabitacionesReservadas = new ArrayList<Integer>();
+		
+		for(int i=0;i<reservas.size();i++) {
+			if(compararFechas(reservas.get(i).getFechaInicio(), reservas.get(i).getFechaFin(),fInicial,fFinal)) {
+				idHabitacionesReservadas.add(reservas.get(i).getIdHabitacion());
+			}
+		}
+		
+		for(int i=0;i<inventario.size();i++) {
+			for(int a=0;a<idHabitacionesReservadas.size();a++) {
+				if(inventario.get(i).getIdentificador()==idHabitacionesReservadas.get(a)) {
+					habitacionesDisponibles.add(inventario.get(i));
+				}
+			}
+		}
+		
+		return habitacionesDisponibles;
+	}
+	
+	/*
+	 * Compara 4 fechas, retorna true si esta disponible o false si no esta disponible en ese rango de fechas
+	 */
+	private boolean compararFechas(Date fechaReservaInicial, Date fechaReservaFinal, Date fechaConsultaInicial, Date fechaConsultaFinal) {
+		
+		boolean disponible = false;
+		
+		if(fechaConsultaInicial.after(fechaReservaInicial) && fechaConsultaFinal.after(fechaReservaInicial)) {
+			disponible= true;
+		}
+		if(fechaConsultaInicial.before(fechaReservaFinal) && fechaConsultaFinal.before(fechaReservaFinal)) {
+			disponible =true;
+		}
+		
+		return disponible;
+	}
 }
