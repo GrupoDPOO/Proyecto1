@@ -48,36 +48,35 @@ public class Consola {
 		
 	}
 
-	private void menuEmpleado(){
+	private void menuEmpleado() throws IOException{
 
-		Scanner scaner = new Scanner (System.in);
-		System.out.println("\n1. Registrar consumo de un huésped");
-		String opcion = scaner.nextLine();
-
-		if (opcion.equals("1")){
-
-			System.out.println("Digite el id del cliente");
-			int idCliente= scaner.nextInt();
-			ArrayList<String> servicios= new ArrayList<String>();
-			System.out.println("\n -----------SERVICIOS-----------");
-			System.out.println("1. Servicio de SPA");
-			System.out.println("2. Servicio de guía turístico");
-			System.out.println("2. Servicio de restaurante");
-			String opcion2= scaner.nextLine();
-
-			if (opcion2.equals("1")){
-
-			}
-			if (opcion2.equals("2")){
-				
-			}
-			if (opcion2.equals("3")){
-				
-			}
-
-			scaner.close();
-
+		System.out.println("\n -----------SERVICIOS-----------");
+		System.out.println("1. Consultar menu y servicios");
+		System.out.println("2. Registrar servicio");
+		String op = input("Digite una opcion");
+		if(op.equals("1")) {
+			this.consultarServicios();
+			this.menuEmpleado();
+		}else if(op.equals("2")) {
+			this.consultarServicios();
+			String codigoServicio = input("Digite el codigo del producto o servicio que desea adquirir");
+			String documento = input("Digite el documento de la persona que desea adquirir el servicio");
+			hotel.registrarServicio(codigoServicio, documento);
+			System.out.println("Servicio registrado correctamente");
 		}
+	}
+	
+	private void consultarServicios() {
+		ArrayList<Servicio> servicios = hotel.getServicios();
+		
+		for(int i=0;i<servicios.size();i++) {
+			System.out.println("\n--------------------");
+			System.out.println("Código producto: " + servicios.get(i).getCodigo());
+			System.out.println("Producto: " + servicios.get(i).getProducto());
+			System.out.println("Horario: " +servicios.get(i).getHoraInicial()+ " - " + servicios.get(i).getHoraFinal());
+			System.out.println("Precio: "+servicios.get(i).getPrecio());
+		}
+		System.out.println("\n--------------------");
 	}
 	
 	private void menuRecepcionista() throws IOException, ParseException{
@@ -87,6 +86,7 @@ public class Consola {
 		System.out.println("3. Consultar las reservaciones de una habitación en especifico");
 		System.out.println("4. Consultar disponibilidad de habitaciones por fecha");
 		System.out.println("5. Realizar una reserva");
+		System.out.println("6. Generar Factura");
 		String opcion = input("Digite una opción");
 
 		if(opcion.equals("1")) {
@@ -147,33 +147,101 @@ public class Consola {
 			String fechaInicio=input("Digite la fecha inicial de la reserva dd/MM/YYYY");
 			String fechaFinal = input("Digite la fecha final de la reserva dd/MM/YYYY");
 			
-			System.out.println("Dentro de ese rango de fechas tenemos disponibles las siguientes habitaciones: ");
-			
-			ArrayList<Habitacion> habitacionesDisponibles = hotel.habitacionesPorFecha(fechaInicio, fechaFinal);
-			
-			for(int i=0;i<habitacionesDisponibles.size();i++) {
-				System.out.println("\n------------------------------------------\n");
-				System.out.println("Habitación N°: " + habitacionesDisponibles.get(i).getIdentificador());
-				System.out.println("     Ubicacion: " + habitacionesDisponibles.get(i).getUbicacion());
-				
-				if(habitacionesDisponibles.get(i).isBalcon()) System.out.println("     Cuenta con balcón");
-				if(habitacionesDisponibles.get(i).isVista()) System.out.println("     Cuenta con Vista");
-				if(habitacionesDisponibles.get(i).isCocina()) System.out.println("     Cuenta con Cocina Integral");
-				
-				System.out.println("     Capacidad para Niños: " + habitacionesDisponibles.get(i).capacidadNinos());
-				System.out.println("     Capacidad para Adultos: " + habitacionesDisponibles.get(i).capacidadAdultos());
-				System.out.println("     Tipo: " + habitacionesDisponibles.get(i).getTipo());	
-			}
-			System.out.println("\n------------------------------------------\n");
+			this.consultaHabitaciones(fechaInicio, fechaFinal);
 			this.menuRecepcionista();
 			
 			
+		}else if(opcion.equals("5")) {
+			this.realizarReserva();
+		}else if(opcion.equals("6")) {
+			this.generarFactura();
+			System.out.println("Factura generado y guardada correctamente");
 		}
 	
 	
 }
+	
+	private void generarFactura() throws IOException, ParseException {
+		
+		String documento = input("\nDigite el numero de documento de la persona para generar la factura");
+		hotel.generarFactura(documento);
+	}
+	
+	
+	private void consultaHabitaciones(String fechaInicio, String fechaFinal) throws ParseException {
+		
+		System.out.println("Dentro de ese rango de fechas tenemos disponibles las siguientes habitaciones: ");
+		
+		ArrayList<Habitacion> habitacionesDisponibles = hotel.habitacionesPorFecha(fechaInicio, fechaFinal);
+		
+		for(int i=0;i<habitacionesDisponibles.size();i++) {
+			System.out.println("\n------------------------------------------\n");
+			System.out.println("Habitación N°: " + habitacionesDisponibles.get(i).getIdentificador());
+			System.out.println("     Ubicacion: " + habitacionesDisponibles.get(i).getUbicacion());
+			
+			if(habitacionesDisponibles.get(i).isBalcon()) System.out.println("     Cuenta con balcón");
+			if(habitacionesDisponibles.get(i).isVista()) System.out.println("     Cuenta con Vista");
+			if(habitacionesDisponibles.get(i).isCocina()) System.out.println("     Cuenta con Cocina Integral");
+			
+			System.out.println("     Capacidad para Niños: " + habitacionesDisponibles.get(i).capacidadNinos());
+			System.out.println("     Capacidad para Adultos: " + habitacionesDisponibles.get(i).capacidadAdultos());
+			System.out.println("     Tipo: " + habitacionesDisponibles.get(i).getTipo());	
+		}
+		System.out.println("\n------------------------------------------\n");
+	}
+	
+	private void realizarReserva() throws ParseException, IOException  {
+		
+		String fInicial = input("Fecha de ingreso de la reserva dd/MM/yyyy");
+		String fFinal = input("Fecha de salidad de la reserva dd/MM/yyyy");
+		this.consultaHabitaciones(fInicial, fFinal);
+		
+		ArrayList<Integer> idHabitacionesReservadas = hotel.idHabDisponibles(fInicial,fFinal);
+		
+		String idHabitacion = "-1";
+		
+		ArrayList<Integer> idHabitacionesPorReservar = new ArrayList<>();
+		
+		while(!idHabitacion.equals("0")) {
+			idHabitacion = input("\nDigite los numeros de las habitaciones que desea reservar uno por uno, Marque 0 para finalizar");
+				if(!idHabitacion.equals("0")){
+					idHabitacionesPorReservar.add(Integer.valueOf(idHabitacion));
+				}
+				
+			
+		}
+		
+		ArrayList<Acompañante> huespedes = new ArrayList<>();
+		
+		int id = (int) (Math.random()*1000+1);
+		int idReserva = (int) (Math.random()*1000+1);
+		System.out.println("\n ---Datos de la persona a cargo de la reserva---");
+		String nombre = input("Nombre del huesped");
+		String documento = input("Documento de identidad");
+		String correo = input("Correo electronico");
+		String telefono = input("Numero celular");
+		int cantidad = Integer.parseInt(input("Numero de personas de la reserva"));
+		
+		Huesped huesped = new Huesped(idReserva,id,nombre,documento,correo,telefono,cantidad);
+		Acompañante principal = new Acompañante(idReserva,id,nombre,documento);
+		huespedes.add(principal);
+		System.out.println("\nDatos de los acompañantes");
+		for(int i=0;i<cantidad;i++) {
+			System.out.println("Datos acompañante " + i+1);
+			nombre = input("\nNombre");
+			documento = input("Documento");
+			Acompañante acompañante = new Acompañante(idReserva, id,nombre,documento);
+			huespedes.add(acompañante);
+		}
+		double precioReserva = hotel.tarifaPorReserva(idHabitacionesPorReservar, fInicial, fFinal);
+		hotel.registrarReserva(idReserva,idHabitacionesPorReservar, fInicial, fFinal, id, huesped, huespedes,precioReserva);
+		
+		System.out.println("Registro exitoso el total de su reserva es: " + precioReserva);
+		this.menuRecepcionista();
 
-	private void menuAdministrador() throws IOException {
+	}
+
+	private void menuAdministrador() throws IOException, ParseException {
 		System.out.println("\n1. Crear una nueva habitación");
 		System.out.println("2. Cargar archivo de habitaciones");
 		
@@ -187,7 +255,7 @@ public class Consola {
 		}
 	}
 	
-	private void crearHabitacion() throws IOException {
+	private void crearHabitacion() throws IOException, ParseException {
 		
 		int id = Integer.parseInt(input("Digite el identificado de la habitacion (SOLO NUMEROS)"));
 		String ubicacion = input("Escriba la ubicacion de la habitacion");
@@ -214,7 +282,7 @@ public class Consola {
 	}
 	
 	/*
-	 * Método para ingresar datos por el usuario (se obtuve del taller 1)
+	 * Método para ingresar datos por el usuario (se obtuvo del taller 1)
 	 */
 
 	public static String input(String mensaje) {

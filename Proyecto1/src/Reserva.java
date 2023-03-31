@@ -10,12 +10,13 @@ public class Reserva {
 	private Date fechaFin;
 	private int idCliente;
 	private String nombreCliente;
+	private double precioReserva;
 	
 	SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
 
 	public Reserva(int idReserva, int idHabitacion, String fechaInicio, String fechaFin, int idCliente,
-			String nombreCliente) throws ParseException {
+			String nombreCliente, double precioReserva) throws ParseException {
 		
 		
 		Date fechaIni = formato.parse(fechaInicio);  
@@ -26,6 +27,7 @@ public class Reserva {
 		this.fechaFin = fechaFinal;
 		this.idCliente = idCliente;
 		this.nombreCliente = nombreCliente;
+		this.precioReserva = precioReserva;
 	}
 
 
@@ -58,6 +60,10 @@ public class Reserva {
 	
 	public String getNombreCliente() {
 		return nombreCliente;
+	}
+	
+	public double getPrecio() {
+		return precioReserva;
 	}
 	
 	

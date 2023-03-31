@@ -1,0 +1,8 @@
+11;hamburguesa;11:00;15:00;15000
+12;perro caliente;11:00;15:00;12000
+13;almuerzo corriente;11:00;15:00;13000
+14;almuerzo especial;11:00;15:00;17000
+15;gaseosa;11:00;15:00;2000
+16;cerveza;11:00;15:00;3000
+17;SPA;10:00;17:00;25000
+18;guia turistico;10:00;17:00;25000

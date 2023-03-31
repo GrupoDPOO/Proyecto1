@@ -1,3 +1,10 @@
-101;adad;false;false;false;mediana;suite
-23;wwwwwwwwww;true;true;true;mediana;suite
-302;asas;true;true;false;mediana;estandar
+101;primer piso, primera habitacion;false;false;true;grande,queen;suite
+103;primer piso;false;false;false;mediana;estandar
+105;primer piso;false;false;true;mediana,grande;estandar
+107;primer piso;false;false;true;mediana,grande;estandar
+201;Segundo piso;false;true;true;grande;estandar
+203;Segundo piso;false;true;true;grande,king;suite doble
+205;Segundo piso;false;true;true;queen,king;suite doble
+301;tercer piso;true;true;false;queen,king;suite doble
+303;tercer piso;true;true;false;pequeña;estandar
+305;tercer piso;true;true;false;grande;suite

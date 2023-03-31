@@ -33,57 +33,41 @@ public class Habitacion {
 		return identificador;
 	}
 
-	public void setIdentificador(int identificador) {
-        this.identificador = identificador;
-    }
+	
 
     public String getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
-
+    
     public boolean isBalcon() {
         return balcon;
     }
 
-    public void setBalcon(boolean balcon) {
-        this.balcon = balcon;
-    }
-
+  
     public boolean isVista() {
         return vista;
     }
 
-    public void setVista(boolean vista) {
-        this.vista = vista;
-    }
+   
 
     public boolean isCocina() {
         return cocina;
     }
 
-    public void setCocina(boolean cocina) {
-        this.cocina = cocina;
-    }
+  
 
     public ArrayList<Cama> getCamas() {
         return camas;
     }
 
-    public void setCamas(ArrayList<Cama> camas) {
-        this.camas = camas;
-    }
+  
 
     public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    
 
 	@Override
 	public String toString() {
