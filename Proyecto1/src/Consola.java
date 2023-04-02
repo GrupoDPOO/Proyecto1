@@ -63,6 +63,7 @@ public class Consola {
 			String documento = input("Digite el documento de la persona que desea adquirir el servicio");
 			hotel.registrarServicio(codigoServicio, documento);
 			System.out.println("Servicio registrado correctamente");
+			this.menuEmpleado();
 		}
 	}
 	
@@ -153,9 +154,11 @@ public class Consola {
 			
 		}else if(opcion.equals("5")) {
 			this.realizarReserva();
+			this.menuRecepcionista();
 		}else if(opcion.equals("6")) {
 			this.generarFactura();
 			System.out.println("Factura generado y guardada correctamente");
+			this.menuRecepcionista();
 		}
 	
 	
@@ -250,8 +253,10 @@ public class Consola {
 		if(opcion.equals("1")) {
 			hotel.cargarArchivos();
 			this.crearHabitacion();
+			this.menuAdministrador();
 		}else if(opcion.equals("2")){
 			this.cargarArchivoHabitaciones();
+			this.menuAdministrador();
 		}
 	}
 	
